@@ -1,4 +1,5 @@
-/*package com.example.skattjakt;
+package com.example.skattjakt;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -6,13 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
+
 public class DatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "contactsManager";
-    private static final String TABLE_CONTACTS = "contacts";
+    private static final String DATABASE_NAME = "ScoresManager";
+    private static final String TABLE_CONTACTS = "Scores";
     private static final String KEY_ID = "id";
-    private static final int KEY_NAME = "score";
-    private static final String KEY_PH_NO = "phone_number";
+    private static final String KEY_SCORE = "score";
+
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -23,8 +25,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_PH_NO + " TEXT" + ")";
+                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SCORE + " TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -38,12 +39,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // code to add the new contact
-    void addContact(score Score) {
+    // code to add the new Score
+    void addscore(score Score) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, Score.getScore()); // Contact Name
+        values.put(KEY_SCORE, Score.getScore()); // score Name
 
 
         // Inserting Row
@@ -54,9 +55,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
 
-    // code to get all contacts in a list view
-    public List<score> getAllContacts() {
-        List<score> contactList = new ArrayList<score>();
+    // code to get all Scores in a list view
+    public List<score> getAllscores() {
+        List<score> ScoreList = new ArrayList<score>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
 
@@ -67,40 +68,39 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 score Score = new score();
-                score.setID(Integer.parseInt(cursor.getString(0)));
-                score.setscore(cursor.getString(1));
-                // Adding contact to list
-                contactList.add(score);
+                Score.setID(Integer.parseInt(cursor.getString(0)));
+                Score.setScore(Integer.parseInt(cursor.getString(1)));
+
+                ScoreList.add(Score);
             } while (cursor.moveToNext());
         }
 
-        // return contact list
-        return contactList;
+        // return Score list
+        return ScoreList;
     }
 
-    // code to update the single contact
-    public int updateContact(Contact contact) {
+    // code to update the single Score
+    public int updatescore(score Score) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, contact.getName());
-        values.put(KEY_PH_NO, contact.getPhoneNumber());
+        values.put(KEY_SCORE, Score.getScore());
 
         // updating row
         return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(contact.getID()) });
+                new String[] { String.valueOf(Score.getID()) });
     }
 
-    // Deleting single contact
-    public void deleteContact(Contact contact) {
+    // Deleting single score
+    public void deletescore(score Score) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CONTACTS, KEY_ID + " = ?",
-                new String[] { String.valueOf(contact.getID()) });
+                new String[] { String.valueOf(Score.getID()) });
         db.close();
     }
 
-    // Getting contacts Count
-    public int getContactsCount() {
+    // Getting Scores Count
+    public int getscoresCount() {
         String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
@@ -111,4 +111,3 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 }
-  */

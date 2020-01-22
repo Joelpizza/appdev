@@ -48,6 +48,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        DatabaseHandler db = new DatabaseHandler(this);
     }
     public void surrender(View view){
         mMap.clear();
@@ -92,12 +93,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if(location.getLatitude()>randomLat-0.0001&&location.getLatitude()<randomLat+0.0001&&location.getLongitude()>randomLong-0.0001&&location.getLongitude()<randomLong+0.0001){
                     Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                     newPin=true;
+
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-
-
                     alertDialogBuilder.setTitle("Success");
-
-
                     alertDialogBuilder
                             .setMessage("du hittade platsen")
                             .setCancelable(false)
@@ -112,10 +110,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     dialog.cancel();
                                 }
                             });
-
-
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
+
+                    //db.addscore(new score(1,200));
                 }
 
 
