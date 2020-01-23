@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Location;
 import android.Manifest;
 import android.os.Bundle;
@@ -30,9 +31,10 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
+    public static final String EXTRA_MESSAGE = "com.example.skattjakt.MESSAGE";
     private FusedLocationProviderClient fusedLocationClient;
     private GoogleMap mMap;
+    public DatabaseHandler db;
     LocationRequest mLocationRequest;
 
     final Context context = this;
@@ -49,21 +51,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        DatabaseHandler db = new DatabaseHandler(this);
+        db = new DatabaseHandler(this);
         //db.addscore(new score(200));
-        List<score> scores = db.getAllscores();
-        int totalscore = 0;
-        for(score sc : scores) {
-            totalscore += sc.getScore();
-            String log =""+totalscore;
-            Log.i("databas", log);
-        }
+
+
         //final EditText score = (EditText)findViewById(totalscore);
     }
 
     public void surrender(View view){
         mMap.clear();
         newPin=true;
+    }
+    public void info(View view){
+        Intent intent = new Intent ( this,infopage.class);
+        //EditText editText = (EditText) findViewById(R.id.editText2);
+        List<score> scores = db.getAllscores();
+        int totalscore = 0;
+        for(score sc : scores) {
+            totalscore += sc.getScore();
+        }
+        String message = "Score: "+totalscore;
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
     }
 
     @Override
@@ -111,12 +120,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     alertDialogBuilder
                             .setMessage("du hittade platsen")
                             .setCancelable(false)
-                            .setPositiveButton("yippie!",new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,int id) {
-                                    dialog.cancel();
-                                }
-                            })
-                            .setNegativeButton("hurra!",new DialogInterface.OnClickListener() {
+                            .setPositiveButton("uppfattat!",new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,int id) {
                                     dialog.cancel();
                                 }
@@ -124,7 +128,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
 
-
+                    db.addscore(new score(200));
                 }
 
 
