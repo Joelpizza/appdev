@@ -10,6 +10,9 @@ public class score {
         this._score = score;
 
     }
+    public score(int score){
+        this._score = score;
+    }
 
     public int getID(){
         return this._id;

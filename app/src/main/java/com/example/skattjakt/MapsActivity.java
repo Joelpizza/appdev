@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -49,7 +50,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         DatabaseHandler db = new DatabaseHandler(this);
+        //db.addscore(new score(200));
+        List<score> scores = db.getAllscores();
+        int totalscore = 0;
+        for(score sc : scores) {
+            totalscore += sc.getScore();
+            String log =""+totalscore;
+            Log.i("databas", log);
+        }
+        //final EditText score = (EditText)findViewById(totalscore);
     }
+
     public void surrender(View view){
         mMap.clear();
         newPin=true;
@@ -63,8 +74,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setMyLocationEnabled(true);
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(5000); // 5 sec interval
-        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setInterval(2000); // 2 sec interval
+        mLocationRequest.setFastestInterval(2000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         fusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
 
@@ -81,8 +92,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Location location = locationList.get(locationList.size() - 1);
 
                 if(newPin==true) {
-                    randomLat =  ThreadLocalRandom.current().nextDouble(location.getLatitude()-0.005,location.getLatitude()+0.005);
-                    randomLong = ThreadLocalRandom.current().nextDouble(location.getLongitude()-0.005,location.getLongitude()+0.005);
+                    randomLat =  ThreadLocalRandom.current().nextDouble(location.getLatitude()-0.008,location.getLatitude()+0.008);
+                    randomLong = ThreadLocalRandom.current().nextDouble(location.getLongitude()-0.008,location.getLongitude()+0.008);
                     LatLng target = new LatLng(randomLat, randomLong);
                     //58.3972
                     //13.877
@@ -92,6 +103,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 if(location.getLatitude()>randomLat-0.0001&&location.getLatitude()<randomLat+0.0001&&location.getLongitude()>randomLong-0.0001&&location.getLongitude()<randomLong+0.0001){
                     Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
+                    mMap.clear();
                     newPin=true;
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
@@ -106,14 +118,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             })
                             .setNegativeButton("hurra!",new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,int id) {
-
                                     dialog.cancel();
                                 }
                             });
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
 
-                    //db.addscore(new score(1,200));
+
                 }
 
 
