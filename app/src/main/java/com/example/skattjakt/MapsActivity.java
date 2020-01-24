@@ -1,5 +1,6 @@
 package com.example.skattjakt;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -14,7 +15,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
+
 
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -34,6 +35,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     public static final String EXTRA_MESSAGE = "com.example.skattjakt.MESSAGE";
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private FusedLocationProviderClient fusedLocationClient;
     private GoogleMap mMap;
     public DatabaseHandler db;
@@ -87,6 +89,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mLocationRequest.setFastestInterval(2000);
             mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
             fusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+        }
+        else{
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_LOCATION);
+            this.recreate();
         }
 
 
