@@ -1,11 +1,13 @@
 package com.example.skattjakt;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.Manifest;
 import android.os.Bundle;
@@ -52,10 +54,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         db = new DatabaseHandler(this);
-        //db.addscore(new score(200));
-
-
-        //final EditText score = (EditText)findViewById(totalscore);
     }
 
     public void surrender(View view){
@@ -80,14 +78,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap = googleMap;
 
-
-        mMap.setMyLocationEnabled(true);
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(2000); // 2 sec interval
-        mLocationRequest.setFastestInterval(2000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        fusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+            mLocationRequest = new LocationRequest();
+            mLocationRequest.setInterval(2000); // 2 sec interval
+            mLocationRequest.setFastestInterval(2000);
+            mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+            fusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+        }
 
 
     }
@@ -116,9 +116,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     newPin=true;
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                    alertDialogBuilder.setTitle("Success");
+                    alertDialogBuilder.setTitle("Du hittade platsen");
                     alertDialogBuilder
-                            .setMessage("du hittade platsen")
+                            .setMessage("din poäng har ökats med 200")
                             .setCancelable(false)
                             .setPositiveButton("uppfattat!",new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,int id) {
