@@ -1,2 +1,2 @@
 # appdev
-making an app
+version 1.3
