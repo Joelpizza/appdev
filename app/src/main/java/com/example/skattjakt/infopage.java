@@ -19,8 +19,7 @@ public class infopage extends AppCompatActivity {
         textView.setText(message);
     }
     public void openOldIntent(View view){
-        Intent intent = new Intent ( this,MapsActivity.class);
-        startActivity(intent);
+        this.finish();
 
     }
 }
