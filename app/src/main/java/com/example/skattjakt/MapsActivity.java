@@ -4,6 +4,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,6 +34,8 @@ import java.util.List;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import static java.lang.Integer.parseInt;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     public static final String EXTRA_MESSAGE = "com.example.skattjakt.MESSAGE";
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -40,8 +43,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     public DatabaseHandler db;
     LocationRequest mLocationRequest;
-
+    public int difficulty;
     final Context context = this;
+    public static Activity firstActivity;
 
     public boolean newPin = true;
     public double randomLat;
@@ -51,6 +55,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        String message = getIntent().getStringExtra(infopage.DIFFICULTY);
+        if(message==null){
+            difficulty = 2;
+        }
+        else{
+            difficulty = parseInt(message);
+        }
+        firstActivity = this;
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -85,8 +97,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
             mLocationRequest = new LocationRequest();
-            mLocationRequest.setInterval(2000); // 2 sec interval
-            mLocationRequest.setFastestInterval(2000);
+            mLocationRequest.setInterval(1000); // 1 sec interval
+            mLocationRequest.setFastestInterval(1000);
             mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
             fusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
         }
@@ -118,15 +130,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         public void onLocationResult(LocationResult locationResult) {
             List<Location> locationList = locationResult.getLocations();
             if (locationList.size() > 0) {
-                //The last location in the list is the newest
                 Location location = locationList.get(locationList.size() - 1);
-
                 if(newPin==true) {
-                    randomLat =  ThreadLocalRandom.current().nextDouble(location.getLatitude()-0.008,location.getLatitude()+0.008);
-                    randomLong = ThreadLocalRandom.current().nextDouble(location.getLongitude()-0.008,location.getLongitude()+0.008);
+                    double distance;
+                    if(difficulty==1){
+                        distance = 0.002;
+                    }
+                    else if(difficulty==2){
+                        distance = 0.005;
+                    }
+                    else if(difficulty==3){
+                        distance = 0.008;
+                    }
+                    else{
+                        distance = 0.05;
+                    }
+
+                    randomLat =  ThreadLocalRandom.current().nextDouble(location.getLatitude()-distance,location.getLatitude()+distance);
+                    randomLong = ThreadLocalRandom.current().nextDouble(location.getLongitude()-distance,location.getLongitude()+distance);
                     LatLng target = new LatLng(randomLat, randomLong);
-                    //58.3972
-                    //13.877
                     mMap.addMarker(new MarkerOptions().position(target).title("target location"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(target));
                     newPin=false;
@@ -148,8 +170,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             });
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
+                    if(difficulty==1){
+                        db.addscore(new score(50));
+                    }
+                    else if(difficulty==2){
+                        db.addscore(new score(100));
+                    }
+                    else if(difficulty==3){
+                        db.addscore(new score(200));
+                    }
+                    else{
+                        db.addscore(new score(1000));
+                    }
 
-                    db.addscore(new score(200));
                 }
 
 
