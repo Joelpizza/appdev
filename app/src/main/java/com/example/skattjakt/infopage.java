@@ -8,10 +8,14 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import static java.lang.Boolean.parseBoolean;
+import static java.lang.Integer.parseInt;
+
 public class infopage extends AppCompatActivity {
     public static final String DIFFICULTY = "com.example.skattjakt.DIFFICULTY";
     int difficulty;
-    Boolean diffchange = false;
+    boolean settchange = false;
+    boolean icons = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,10 +23,36 @@ public class infopage extends AppCompatActivity {
         Intent intent = getIntent();
         String message = intent.getStringExtra(MapsActivity.EXTRA_MESSAGE);
         TextView textView = findViewById(R.id.textView);
-        textView.setText(message);
+        String[] messarr = message.split(",",3);
+        difficulty = parseInt(messarr[1]);
+        icons=parseBoolean(messarr[2]);
+        textView.setText(messarr[0]);
+        RadioButton radiobutton;
+        RadioButton radiobutton2;
+        if(difficulty==1){
+            radiobutton = findViewById(R.id.radioButton);
+        }
+        else if(difficulty==2){
+            radiobutton = findViewById(R.id.radioButton2);
+        }
+        else if(difficulty==3){
+            radiobutton = findViewById(R.id.radioButton3);
+        }
+        else{
+            radiobutton = findViewById(R.id.radioButton4);
+        }
+        radiobutton.setChecked(true);
+        if(icons){
+            radiobutton2 = findViewById(R.id.radioButton6);
+        }
+        else{
+            radiobutton2 = findViewById(R.id.radioButton5);
+        }
+        radiobutton2.setChecked(true);
+
     }
     public void openOldIntent(View view){
-        if(diffchange){
+        if(settchange){
             difficultySwitch(view);
         }
         else {
@@ -33,7 +63,7 @@ public class infopage extends AppCompatActivity {
 
         boolean checked = ((RadioButton) view).isChecked();
 
-        diffchange = true;
+        settchange = true;
         switch(view.getId()) {
             case R.id.radioButton:
                 if (checked)
@@ -51,13 +81,22 @@ public class infopage extends AppCompatActivity {
                 if (checked)
                     difficulty = 4;
                 break;
+            case R.id.radioButton5:
+                if (checked)
+                    icons = false;
+                break;
+            case R.id.radioButton6:
+                if (checked)
+                    icons = true;
+                break;
         }
     }
     public void difficultySwitch(View view){
         MapsActivity.firstActivity.finish();
+        //förhindra memory leak genom att använda null
         MapsActivity.firstActivity = null;
         Intent intent = new Intent ( this,MapsActivity.class);
-        String send = ""+difficulty;
+        String send = difficulty+","+icons;
         intent.putExtra(DIFFICULTY, send);
         startActivity(intent);
         this.finish();

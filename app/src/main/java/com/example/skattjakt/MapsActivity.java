@@ -26,6 +26,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -34,6 +35,7 @@ import java.util.List;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import static java.lang.Boolean.parseBoolean;
 import static java.lang.Integer.parseInt;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -44,6 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public DatabaseHandler db;
     LocationRequest mLocationRequest;
     public int difficulty;
+    boolean icons;
     final Context context = this;
     public static Activity firstActivity;
 
@@ -58,9 +61,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String message = getIntent().getStringExtra(infopage.DIFFICULTY);
         if(message==null){
             difficulty = 2;
+            icons = true;
         }
         else{
-            difficulty = parseInt(message);
+            String[] messarr = message.split(",",2);
+            difficulty = parseInt(messarr[0]);
+            icons=parseBoolean(messarr[1]);
         }
         firstActivity = this;
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -82,7 +88,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for(score sc : scores) {
             totalscore += sc.getScore();
         }
-        String message = "Score: "+totalscore;
+        String message = "Score: "+totalscore+","+difficulty+","+icons;
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
@@ -91,7 +97,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-
+        if(icons==false){
+            mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style));
+        }
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -150,7 +158,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     randomLong = ThreadLocalRandom.current().nextDouble(location.getLongitude()-distance,location.getLongitude()+distance);
                     LatLng target = new LatLng(randomLat, randomLong);
                     mMap.addMarker(new MarkerOptions().position(target).title("target location"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(target));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom((target),12));
                     newPin=false;
                 }
                 if(location.getLatitude()>randomLat-0.0001&&location.getLatitude()<randomLat+0.0001&&location.getLongitude()>randomLong-0.0001&&location.getLongitude()<randomLong+0.0001){
