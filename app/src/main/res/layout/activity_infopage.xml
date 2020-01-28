@@ -10,30 +10,24 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:layout_marginTop="120dp"
-        android:layout_marginEnd="157dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="80dp"
         android:text="TextView"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="352dp"
+        android:layout_height="260dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="10dp"
         android:text='Spelet går ut på att man ska gå till den röda pinnen. När du har gått till den röda pinnen får du poäng baserat på svårighetsgraden. Om du inte kan ta dig till platsen som pinnen är på så kan du klicka på "ge upp" knappen, så får du ett nytt mål på kartan.'
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -41,22 +35,20 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="117dp"
-        android:layout_marginEnd="116dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="32dp"
         android:onClick="openOldIntent"
         android:text="Tillbaka till kartan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="21dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="14dp"
         android:text="svårighetsgrad (distans)"
@@ -68,13 +60,11 @@
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="118dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="14dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="29dp"
         app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toStartOf="@+id/radioGroup2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
@@ -125,13 +115,11 @@
         android:id="@+id/radioGroup2"
         android:layout_width="118dp"
         android:layout_height="130dp"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="14dp"
-        android:layout_marginEnd="39dp"
+        android:layout_marginEnd="50dp"
         android:layout_marginBottom="29dp"
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/radioGroup"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <RadioButton
