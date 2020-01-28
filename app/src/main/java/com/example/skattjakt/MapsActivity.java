@@ -49,6 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     boolean icons;
     final Context context = this;
     public static Activity firstActivity;
+    boolean clickedinfo = false;
 
     public boolean newPin = true;
     public double randomLat;
@@ -81,16 +82,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         newPin=true;
     }
     public void info(View view){
-        Intent intent = new Intent ( this,infopage.class);
-        //EditText editText = (EditText) findViewById(R.id.editText2);
-        List<score> scores = db.getAllscores();
-        int totalscore = 0;
-        for(score sc : scores) {
-            totalscore += sc.getScore();
+        if(!clickedinfo){
+            Intent intent = new Intent ( this,infopage.class);
+            List<score> scores = db.getAllscores();
+            int totalscore = 0;
+            for(score sc : scores) {
+                totalscore += sc.getScore();
+            }
+            String message = "Score: "+totalscore+","+difficulty+","+icons;
+            intent.putExtra(EXTRA_MESSAGE, message);
+            startActivity(intent);
+            clickedinfo=true;
         }
-        String message = "Score: "+totalscore+","+difficulty+","+icons;
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
     }
 
     @Override
@@ -136,6 +139,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
+            clickedinfo=false;
             List<Location> locationList = locationResult.getLocations();
             if (locationList.size() > 0) {
                 Location location = locationList.get(locationList.size() - 1);
@@ -153,7 +157,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     else{
                         distance = 0.05;
                     }
-
                     randomLat =  ThreadLocalRandom.current().nextDouble(location.getLatitude()-distance,location.getLatitude()+distance);
                     randomLong = ThreadLocalRandom.current().nextDouble(location.getLongitude()-distance,location.getLongitude()+distance);
                     LatLng target = new LatLng(randomLat, randomLong);
@@ -165,11 +168,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                     mMap.clear();
                     newPin=true;
-
+                    int score;
+                    if(difficulty==1){
+                        score=50;
+                    }
+                    else if(difficulty==2){
+                        score=100;
+                    }
+                    else if(difficulty==3){
+                        score=200;
+                    }
+                    else{
+                        score=1000;
+                    }
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                     alertDialogBuilder.setTitle("Du hittade platsen");
                     alertDialogBuilder
-                            .setMessage("din poäng har ökats med 200")
+                            .setMessage("din poäng har ökats med "+score)
                             .setCancelable(false)
                             .setPositiveButton("uppfattat!",new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,int id) {
@@ -178,18 +193,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             });
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
-                    if(difficulty==1){
-                        db.addscore(new score(50));
-                    }
-                    else if(difficulty==2){
-                        db.addscore(new score(100));
-                    }
-                    else if(difficulty==3){
-                        db.addscore(new score(200));
-                    }
-                    else{
-                        db.addscore(new score(1000));
-                    }
+                    db.addscore(new score(score));
+
 
                 }
 
@@ -199,6 +204,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         }
-
     };
 }
