@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 
 import com.google.android.gms.location.LocationCallback;
@@ -50,7 +51,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     final Context context = this;
     public static Activity firstActivity;
     boolean clickedinfo = false;
-
     public boolean newPin = true;
     public double randomLat;
     public double randomLong;
@@ -140,6 +140,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onLocationResult(LocationResult locationResult) {
             clickedinfo=false;
+            List<score> scores = db.getAllscores();
+            int totalscore = 0;
+            for(score sc : scores) {
+                totalscore += sc.getScore();
+            }
+            TextView textView = findViewById(R.id.textView5);
+            textView.setText("Score: "+totalscore);
             List<Location> locationList = locationResult.getLocations();
             if (locationList.size() > 0) {
                 Location location = locationList.get(locationList.size() - 1);
