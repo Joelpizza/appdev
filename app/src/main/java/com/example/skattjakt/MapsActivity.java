@@ -70,7 +70,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             icons=parseBoolean(messarr[1]);
         }
         firstActivity = this;
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -86,10 +85,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Intent intent = new Intent ( this,infopage.class);
             List<score> scores = db.getAllscores();
             int totalscore = 0;
+            int pins = 0;
             for(score sc : scores) {
                 totalscore += sc.getScore();
+                pins++;
             }
-            String message = "Score: "+totalscore+","+difficulty+","+icons;
+            String message = "Score: "+totalscore+" pinnar: "+pins+","+difficulty+","+icons;
             intent.putExtra(EXTRA_MESSAGE, message);
             startActivity(intent);
             clickedinfo=true;
