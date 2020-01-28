@@ -75,7 +75,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         db = new DatabaseHandler(this);
     }
-
     public void surrender(View view){
         mMap.clear();
         newPin=true;
@@ -101,6 +100,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
+        LatLng start = new LatLng(1, 1);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom((start),12));
         if(icons==false){
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style));
         }
@@ -117,8 +118,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else{
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
         }
-
-
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -169,7 +168,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     randomLong = ThreadLocalRandom.current().nextDouble(location.getLongitude()-distance,location.getLongitude()+distance);
                     LatLng target = new LatLng(randomLat, randomLong);
                     mMap.addMarker(new MarkerOptions().position(target).title("target location"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom((target),12));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(target));
                     newPin=false;
                 }
                 if(location.getLatitude()>randomLat-0.0001&&location.getLatitude()<randomLat+0.0001&&location.getLongitude()>randomLong-0.0001&&location.getLongitude()<randomLong+0.0001){
