@@ -16,6 +16,7 @@ public class infopage extends AppCompatActivity {
     int difficulty;
     boolean settchange = false;
     boolean icons = true;
+    boolean nightmode = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,12 +24,14 @@ public class infopage extends AppCompatActivity {
         Intent intent = getIntent();
         String message = intent.getStringExtra(MapsActivity.EXTRA_MESSAGE);
         TextView textView = findViewById(R.id.textView);
-        String[] messarr = message.split(",",3);
+        String[] messarr = message.split(",",4);
         difficulty = parseInt(messarr[1]);
         icons=parseBoolean(messarr[2]);
         textView.setText(messarr[0]);
+        nightmode = parseBoolean(messarr[3]);
         RadioButton radiobutton;
         RadioButton radiobutton2;
+        RadioButton radiobutton3;
         if(difficulty==1){
             radiobutton = findViewById(R.id.radioButton);
         }
@@ -49,13 +52,20 @@ public class infopage extends AppCompatActivity {
             radiobutton2 = findViewById(R.id.radioButton5);
         }
         radiobutton2.setChecked(true);
-
+        if(nightmode){
+            radiobutton3 = findViewById(R.id.radioButton8);
+        }
+        else{
+            radiobutton3 = findViewById(R.id.radioButton7);
+        }
+        radiobutton3.setChecked(true);
     }
     public void openOldIntent(View view){
         if(settchange){
             difficultySwitch(view);
         }
         else {
+            MapsActivity.clickedinfo = false;
             this.finish();
         }
     }
@@ -89,6 +99,14 @@ public class infopage extends AppCompatActivity {
                 if (checked)
                     icons = true;
                 break;
+            case R.id.radioButton7:
+                if (checked)
+                    nightmode = false;
+                break;
+            case R.id.radioButton8:
+                if (checked)
+                    nightmode = true;
+                break;
         }
     }
     public void difficultySwitch(View view){
@@ -96,7 +114,7 @@ public class infopage extends AppCompatActivity {
         //förhindrar memory leak genom att nulla variabeln
         MapsActivity.firstActivity = null;
         Intent intent = new Intent ( this,MapsActivity.class);
-        String send = difficulty+","+icons;
+        String send = difficulty+","+icons+","+nightmode;
         intent.putExtra(DIFFICULTY, send);
         startActivity(intent);
         this.finish();

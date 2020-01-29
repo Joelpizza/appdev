@@ -47,27 +47,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public DatabaseHandler db;
     LocationRequest mLocationRequest;
     public int difficulty;
-    boolean icons;
+    public boolean icons;
+    public boolean nightmode;
     final Context context = this;
     public static Activity firstActivity;
-    public boolean clickedinfo = false;
+    public static boolean clickedinfo;
     public boolean newPin = true;
     public double randomLat;
     public double randomLong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        clickedinfo = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         String message = getIntent().getStringExtra(infopage.DIFFICULTY);
         if(message==null){
             difficulty = 2;
             icons = true;
+            nightmode = false;
         }
         else{
-            String[] messarr = message.split(",",2);
+            String[] messarr = message.split(",",3);
             difficulty = parseInt(messarr[0]);
             icons=parseBoolean(messarr[1]);
+            nightmode=parseBoolean(messarr[2]);
         }
         firstActivity = this;
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -90,7 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 totalscore += sc.getScore();
                 pins++;
             }
-            String message = "Score: "+totalscore+" pinnar: "+pins+","+difficulty+","+icons;
+            String message = "Score: "+totalscore+" pinnar: "+pins+","+difficulty+","+icons+","+nightmode;
             intent.putExtra(EXTRA_MESSAGE, message);
             startActivity(intent);
         }
@@ -102,8 +106,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         LatLng start = new LatLng(1, 1);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom((start),12));
-        if(icons==false){
+        if(icons==false&&nightmode==false){
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style));
+        }
+        if(icons==true&&nightmode==true){
+            mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_dark));
+        }
+        if(icons==false&&nightmode==true){
+            mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_noicondark));
         }
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -139,7 +149,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
-            clickedinfo=false;
             List<score> scores = db.getAllscores();
             int totalscore = 0;
             for(score sc : scores) {
