@@ -102,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
+        googleMap.getUiSettings().setMapToolbarEnabled(false);
         mMap = googleMap;
         LatLng start = new LatLng(1, 1);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom((start),12));
