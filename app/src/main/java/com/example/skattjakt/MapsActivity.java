@@ -50,7 +50,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     boolean icons;
     final Context context = this;
     public static Activity firstActivity;
-    boolean clickedinfo = false;
+    public boolean clickedinfo = false;
     public boolean newPin = true;
     public double randomLat;
     public double randomLong;
