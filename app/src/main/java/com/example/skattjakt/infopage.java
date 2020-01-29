@@ -93,7 +93,7 @@ public class infopage extends AppCompatActivity {
     }
     public void difficultySwitch(View view){
         MapsActivity.firstActivity.finish();
-        //förhindra memory leak genom att använda null
+        //förhindrar memory leak genom att nulla variabeln
         MapsActivity.firstActivity = null;
         Intent intent = new Intent ( this,MapsActivity.class);
         String send = difficulty+","+icons;
