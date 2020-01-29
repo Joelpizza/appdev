@@ -80,7 +80,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         newPin=true;
     }
     public void info(View view){
-        if(!clickedinfo){
+        if(clickedinfo==false){
+            clickedinfo=true;
             Intent intent = new Intent ( this,infopage.class);
             List<score> scores = db.getAllscores();
             int totalscore = 0;
@@ -92,7 +93,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             String message = "Score: "+totalscore+" pinnar: "+pins+","+difficulty+","+icons;
             intent.putExtra(EXTRA_MESSAGE, message);
             startActivity(intent);
-            clickedinfo=true;
         }
     }
 
