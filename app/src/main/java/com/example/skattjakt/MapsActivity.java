@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.Manifest;
 import android.os.Bundle;
@@ -156,6 +157,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             TextView textView = findViewById(R.id.textView5);
             textView.setText("Score: "+totalscore);
+            if(nightmode){
+                textView.setTextColor(Color.parseColor("#ffffff"));
+            }
             List<Location> locationList = locationResult.getLocations();
             if (locationList.size() > 0) {
                 Location location = locationList.get(locationList.size() - 1);
