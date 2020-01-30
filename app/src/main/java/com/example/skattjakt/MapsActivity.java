@@ -172,10 +172,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         distance = 0.005;
                     }
                     else if(difficulty==3){
-                        distance = 0.008;
+                        distance = 0.01;
+                    }
+                    else if(difficulty==4){
+                        distance = 0.05;
                     }
                     else{
-                        distance = 0.05;
+                        distance = 0.1;
                     }
                     randomLat =  ThreadLocalRandom.current().nextDouble(location.getLatitude()-distance,location.getLatitude()+distance);
                     randomLong = ThreadLocalRandom.current().nextDouble(location.getLongitude()-distance,location.getLongitude()+distance);
@@ -198,8 +201,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     else if(difficulty==3){
                         score=200;
                     }
-                    else{
+                    else if(difficulty==4){
                         score=1000;
+                    }
+                    else{
+                        score=2500;
                     }
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                     alertDialogBuilder.setTitle("Du hittade platsen");

@@ -50,7 +50,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="33dp"
+        android:layout_marginBottom="7dp"
         android:text="Svårighetsgrad (distans)"
         app:layout_constraintBottom_toTopOf="@+id/radioGroup"
         app:layout_constraintEnd_toStartOf="@+id/textView4"
@@ -60,7 +60,7 @@
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="118dp"
-        android:layout_height="130dp"
+        android:layout_height="155dp"
         android:layout_marginStart="50dp"
         android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toTopOf="@+id/button2"
@@ -93,6 +93,13 @@
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
             android:text="jättelångt" />
+
+        <RadioButton
+            android:id="@+id/radioButton9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="extremlångt" />
     </RadioGroup>
 
     <TextView

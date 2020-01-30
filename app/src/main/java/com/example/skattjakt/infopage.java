@@ -41,8 +41,11 @@ public class infopage extends AppCompatActivity {
         else if(difficulty==3){
             radiobutton = findViewById(R.id.radioButton3);
         }
-        else{
+        else if(difficulty==4){
             radiobutton = findViewById(R.id.radioButton4);
+        }
+        else{
+            radiobutton = findViewById(R.id.radioButton9);
         }
         radiobutton.setChecked(true);
         if(icons){
@@ -106,6 +109,10 @@ public class infopage extends AppCompatActivity {
             case R.id.radioButton8:
                 if (checked)
                     nightmode = true;
+                break;
+            case R.id.radioButton9:
+                if (checked)
+                    difficulty = 5;
                 break;
         }
     }
