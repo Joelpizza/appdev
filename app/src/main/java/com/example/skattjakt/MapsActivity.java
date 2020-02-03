@@ -95,7 +95,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 totalscore += sc.getScore();
                 pins++;
             }
-            String message = "Score: "+totalscore+" pinnar: "+pins+","+difficulty+","+icons+","+nightmode;
+            String message = "Poäng: "+totalscore+" pinnar: "+pins+","+difficulty+","+icons+","+nightmode;
             intent.putExtra(EXTRA_MESSAGE, message);
             startActivity(intent);
         }
@@ -156,7 +156,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 totalscore += sc.getScore();
             }
             TextView textView = findViewById(R.id.textView5);
-            textView.setText("Score: "+totalscore);
+            textView.setText("Poäng: "+totalscore);
             if(nightmode){
                 textView.setTextColor(Color.parseColor("#ffffff"));
             }
