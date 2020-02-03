@@ -84,6 +84,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.clear();
         newPin=true;
     }
+    public void goback(View view){
+        this.finish();
+    }
     public void info(View view){
         if(clickedinfo==false){
             clickedinfo=true;
