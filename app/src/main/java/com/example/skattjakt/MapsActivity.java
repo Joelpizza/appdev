@@ -48,8 +48,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public DatabaseHandler db;
     LocationRequest mLocationRequest;
     public int difficulty;
-    public boolean icons;
-    public boolean nightmode;
+    public static boolean icons;
+    public static boolean nightmode;
     final Context context = this;
     public static Activity firstActivity;
     public static boolean clickedinfo;
@@ -110,15 +110,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         LatLng start = new LatLng(1, 1);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom((start),12));
-        if(icons==false&&nightmode==false){
-            mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style));
-        }
-        if(icons==true&&nightmode==true){
-            mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_dark));
-        }
-        if(icons==false&&nightmode==true){
-            mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_noicondark));
-        }
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -138,9 +129,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         this.recreate();
                     }
                 } else {
@@ -157,6 +146,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             int totalscore = 0;
             for(score sc : scores) {
                 totalscore += sc.getScore();
+            }
+            if(icons==false&&nightmode==false){
+                mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.style));
+            }
+            if(icons==true&&nightmode==true){
+                mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.style_dark));
+            }
+            if(icons==false&&nightmode==true){
+                mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.style_noicondark));
+            }
+            if(icons==true&&nightmode==false){
+                mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context,R.raw.style_normal));
             }
             TextView textView = findViewById(R.id.textView5);
             textView.setText("Poäng: "+totalscore);

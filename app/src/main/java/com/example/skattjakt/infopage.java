@@ -69,30 +69,43 @@ public class infopage extends AppCompatActivity {
         }
         else {
             MapsActivity.clickedinfo = false;
+            MapsActivity.nightmode = nightmode;
+            MapsActivity.icons = icons;
             this.finish();
         }
+    }
+    @Override
+    public void onBackPressed(){
+        MapsActivity.clickedinfo = false;
+        MapsActivity.nightmode = nightmode;
+        MapsActivity.icons = icons;
+        this.finish();
     }
     public void onRadioButtonClicked(View view) {
 
         boolean checked = ((RadioButton) view).isChecked();
 
-        settchange = true;
+
         switch(view.getId()) {
             case R.id.radioButton:
                 if (checked)
                     difficulty = 1;
+                settchange = true;
                     break;
             case R.id.radioButton2:
                 if (checked)
                     difficulty = 2;
+                settchange = true;
                     break;
             case R.id.radioButton3:
                 if (checked)
                     difficulty = 3;
+                settchange = true;
                 break;
             case R.id.radioButton4:
                 if (checked)
                     difficulty = 4;
+                settchange = true;
                 break;
             case R.id.radioButton5:
                 if (checked)
@@ -113,6 +126,7 @@ public class infopage extends AppCompatActivity {
             case R.id.radioButton9:
                 if (checked)
                     difficulty = 5;
+                settchange = true;
                 break;
         }
     }
