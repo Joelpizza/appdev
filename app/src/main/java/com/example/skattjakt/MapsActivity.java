@@ -169,7 +169,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Location location = locationList.get(locationList.size() - 1);
                 if(newPin==true) {
                     double distance;
-                    if(difficulty==1){
+                    /*if(difficulty==1){
                         distance = 0.002;
                     }
                     else if(difficulty==2){
@@ -183,7 +183,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     else{
                         distance = 0.1;
-                    }
+                    }*/
+                    distance = difficulty*0.001;
                     randomLat =  ThreadLocalRandom.current().nextDouble(location.getLatitude()-distance,location.getLatitude()+distance);
                     randomLong = ThreadLocalRandom.current().nextDouble(location.getLongitude()-distance,location.getLongitude()+distance);
                     LatLng target = new LatLng(randomLat, randomLong);
@@ -196,7 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.clear();
                     newPin=true;
                     int score;
-                    if(difficulty==1){
+                    /*if(difficulty==1){
                         score=50;
                     }
                     else if(difficulty==2){
@@ -210,7 +211,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     else{
                         score=2500;
-                    }
+                    }*/
+                    score=difficulty*5;
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                     alertDialogBuilder.setTitle("Du hittade platsen");
                     alertDialogBuilder

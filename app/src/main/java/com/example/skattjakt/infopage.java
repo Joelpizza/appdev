@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import static java.lang.Boolean.parseBoolean;
@@ -17,6 +18,7 @@ public class infopage extends AppCompatActivity {
     boolean settchange = false;
     boolean icons = true;
     boolean nightmode = false;
+    SeekBar seekBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,25 +31,10 @@ public class infopage extends AppCompatActivity {
         icons=parseBoolean(messarr[2]);
         textView.setText(messarr[0]);
         nightmode = parseBoolean(messarr[3]);
-        RadioButton radiobutton;
         RadioButton radiobutton2;
         RadioButton radiobutton3;
-        if(difficulty==1){
-            radiobutton = findViewById(R.id.radioButton);
-        }
-        else if(difficulty==2){
-            radiobutton = findViewById(R.id.radioButton2);
-        }
-        else if(difficulty==3){
-            radiobutton = findViewById(R.id.radioButton3);
-        }
-        else if(difficulty==4){
-            radiobutton = findViewById(R.id.radioButton4);
-        }
-        else{
-            radiobutton = findViewById(R.id.radioButton9);
-        }
-        radiobutton.setChecked(true);
+        seekBar = findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
         if(icons){
             radiobutton2 = findViewById(R.id.radioButton6);
         }
@@ -62,7 +49,23 @@ public class infopage extends AppCompatActivity {
             radiobutton3 = findViewById(R.id.radioButton7);
         }
         radiobutton3.setChecked(true);
+        seekBar.setProgress(difficulty-5);
     }
+    SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+        }
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            settchange =true;
+        }
+    };
+
     public void openOldIntent(View view){
         if(settchange){
             difficultySwitch(view);
@@ -87,26 +90,6 @@ public class infopage extends AppCompatActivity {
 
 
         switch(view.getId()) {
-            case R.id.radioButton:
-                if (checked)
-                    difficulty = 1;
-                settchange = true;
-                    break;
-            case R.id.radioButton2:
-                if (checked)
-                    difficulty = 2;
-                settchange = true;
-                    break;
-            case R.id.radioButton3:
-                if (checked)
-                    difficulty = 3;
-                settchange = true;
-                break;
-            case R.id.radioButton4:
-                if (checked)
-                    difficulty = 4;
-                settchange = true;
-                break;
             case R.id.radioButton5:
                 if (checked)
                     icons = false;
@@ -123,14 +106,10 @@ public class infopage extends AppCompatActivity {
                 if (checked)
                     nightmode = true;
                 break;
-            case R.id.radioButton9:
-                if (checked)
-                    difficulty = 5;
-                settchange = true;
-                break;
         }
     }
     public void difficultySwitch(View view){
+        difficulty = 5+seekBar.getProgress();
         MapsActivity.firstActivity.finish();
         //förhindrar memory leak genom att nulla variabeln
         MapsActivity.firstActivity = null;
