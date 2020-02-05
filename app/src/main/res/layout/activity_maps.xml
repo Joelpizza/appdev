@@ -28,35 +28,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
+        <ImageButton
             android:id="@+id/button3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:onClick="goback"
             android:text="@string/tillbaka"
+            android:src="@drawable/ic_arrow_back_black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button5"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
+        <ImageButton
             android:id="@+id/button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:onClick="surrender"
             android:text="@string/surrender"
+            android:src="@drawable/ic_flag_black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/button5" />
 
-        <Button
+        <ImageButton
             android:id="@+id/button5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:onClick="info"
             android:text="@string/info"
+            android:src="@drawable/ic_settings_black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button"
-            app:layout_constraintStart_toEndOf="@+id/button3" />
+            app:layout_constraintStart_toEndOf="@+id/button3" >
+
+        </ImageButton>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
