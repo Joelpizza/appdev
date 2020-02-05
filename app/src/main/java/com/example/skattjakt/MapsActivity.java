@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static java.lang.Boolean.parseBoolean;
+import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -56,6 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public boolean newPin = true;
     public double randomLat;
     public double randomLong;
+    float zoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +66,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         String message = getIntent().getStringExtra(infopage.DIFFICULTY);
         if(message==null){
-            difficulty = 2;
+            difficulty = 40;
             icons = true;
             nightmode = false;
+            zoom = 12;
         }
         else{
-            String[] messarr = message.split(",",3);
+            String[] messarr = message.split(",",4);
             difficulty = parseInt(messarr[0]);
             icons=parseBoolean(messarr[1]);
             nightmode=parseBoolean(messarr[2]);
+            zoom = parseFloat(messarr[3]);
         }
         firstActivity = this;
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -98,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 totalscore += sc.getScore();
                 pins++;
             }
-            String message = "Poäng: "+totalscore+" pinnar: "+pins+","+difficulty+","+icons+","+nightmode;
+            String message = "Poäng: "+totalscore+" pinnar: "+pins+","+difficulty+","+icons+","+nightmode+","+zoom;
             intent.putExtra(EXTRA_MESSAGE, message);
             startActivity(intent);
         }
@@ -109,7 +113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googleMap.getUiSettings().setMapToolbarEnabled(false);
         mMap = googleMap;
         LatLng start = new LatLng(1, 1);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom((start),12));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom((start),zoom));
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -147,6 +151,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             for(score sc : scores) {
                 totalscore += sc.getScore();
             }
+            zoom = mMap.getCameraPosition().zoom;
             if(icons==false&&nightmode==false){
                 mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.style));
             }
@@ -169,26 +174,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Location location = locationList.get(locationList.size() - 1);
                 if(newPin==true) {
                     double distance;
-                    /*if(difficulty==1){
-                        distance = 0.002;
-                    }
-                    else if(difficulty==2){
-                        distance = 0.005;
-                    }
-                    else if(difficulty==3){
-                        distance = 0.01;
-                    }
-                    else if(difficulty==4){
-                        distance = 0.05;
-                    }
-                    else{
-                        distance = 0.1;
-                    }*/
                     distance = difficulty*0.001;
                     randomLat =  ThreadLocalRandom.current().nextDouble(location.getLatitude()-distance,location.getLatitude()+distance);
                     randomLong = ThreadLocalRandom.current().nextDouble(location.getLongitude()-distance,location.getLongitude()+distance);
                     LatLng target = new LatLng(randomLat, randomLong);
-                    mMap.addMarker(new MarkerOptions().position(target).title("target location"));
+                    mMap.addMarker(new MarkerOptions().position(target).title("skatten"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(target));
                     newPin=false;
                 }
@@ -197,21 +187,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.clear();
                     newPin=true;
                     int score;
-                    /*if(difficulty==1){
-                        score=50;
-                    }
-                    else if(difficulty==2){
-                        score=100;
-                    }
-                    else if(difficulty==3){
-                        score=200;
-                    }
-                    else if(difficulty==4){
-                        score=1000;
-                    }
-                    else{
-                        score=2500;
-                    }*/
                     score=difficulty*5;
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                     alertDialogBuilder.setTitle("Du hittade platsen");

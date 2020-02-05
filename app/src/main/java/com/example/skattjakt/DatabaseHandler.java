@@ -24,8 +24,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SCORE + " TEXT" + ")";
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SCORE + " TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -87,15 +86,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_SCORE, Score.getScore());
 
         // updating row
-        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(Score.getID()) });
+        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?", new String[] { String.valueOf(Score.getID()) });
     }
 
     // Deleting single score
     public void deletescore(score Score) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CONTACTS, KEY_ID + " = ?",
-                new String[] { String.valueOf(Score.getID()) });
+        db.delete(TABLE_CONTACTS, KEY_ID + " = ?", new String[] { String.valueOf(Score.getID()) });
         db.close();
     }
 

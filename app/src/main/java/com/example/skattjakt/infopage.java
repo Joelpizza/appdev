@@ -10,6 +10,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import static java.lang.Boolean.parseBoolean;
+import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
 public class infopage extends AppCompatActivity {
@@ -18,6 +19,7 @@ public class infopage extends AppCompatActivity {
     boolean settchange = false;
     boolean icons = true;
     boolean nightmode = false;
+    float zoom;
     SeekBar seekBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +28,12 @@ public class infopage extends AppCompatActivity {
         Intent intent = getIntent();
         String message = intent.getStringExtra(MapsActivity.EXTRA_MESSAGE);
         TextView textView = findViewById(R.id.textView);
-        String[] messarr = message.split(",",4);
-        difficulty = parseInt(messarr[1]);
-        icons=parseBoolean(messarr[2]);
+        String[] messarr = message.split(",",5);
         textView.setText(messarr[0]);
+        difficulty = parseInt(messarr[1]);
+        icons = parseBoolean(messarr[2]);
         nightmode = parseBoolean(messarr[3]);
+        zoom = parseFloat(messarr[4]);
         RadioButton radiobutton2;
         RadioButton radiobutton3;
         seekBar = findViewById(R.id.seekBar);
@@ -114,7 +117,7 @@ public class infopage extends AppCompatActivity {
         //förhindrar memory leak genom att nulla variabeln
         MapsActivity.firstActivity = null;
         Intent intent = new Intent ( this,MapsActivity.class);
-        String send = difficulty+","+icons+","+nightmode;
+        String send = difficulty+","+icons+","+nightmode+","+zoom;
         intent.putExtra(DIFFICULTY, send);
         startActivity(intent);
         this.finish();

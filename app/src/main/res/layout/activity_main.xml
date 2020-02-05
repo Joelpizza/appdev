@@ -59,7 +59,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="10dp"
-        android:text="Svårighetsgraden på inställningar går att ställa in. ju högre svårighetsgrad du har desto högre poäng får du. Om svårighetsgraden är på max får du ungefär 2500 poäng. Svårighetsgraden ändrar förutom poäng, distansen till målet, men inget annat. "
+        android:text="Svårighetsgraden på inställningar går att ställa in. ju högre svårighetsgrad du har desto högre poäng får du. Om svårighetsgraden är på max får du ungefär 2500 poäng. Svårighetsgraden ändrar förutom poäng, även distansen till målet."
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
