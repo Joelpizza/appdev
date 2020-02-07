@@ -32,34 +32,40 @@
             android:id="@+id/button3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/tillbaka"
             android:onClick="goback"
-            android:text="@string/tillbaka"
             android:src="@drawable/ic_arrow_back_black"
+            android:text="@string/tillbaka"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/surrender"
             android:onClick="surrender"
-            android:text="@string/surrender"
             android:src="@drawable/ic_flag_black"
+            android:text="@string/surrender"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button5" />
+            app:layout_constraintStart_toEndOf="@+id/button5"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/button5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/info"
             android:onClick="info"
-            android:text="@string/info"
             android:src="@drawable/ic_settings_black"
+            android:text="@string/info"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button"
-            app:layout_constraintStart_toEndOf="@+id/button3" >
+            app:layout_constraintStart_toEndOf="@+id/button3"
+            app:layout_constraintTop_toTopOf="parent">
 
         </ImageButton>
     </androidx.constraintlayout.widget.ConstraintLayout>

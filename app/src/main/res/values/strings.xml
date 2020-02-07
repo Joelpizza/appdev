@@ -2,7 +2,7 @@
     <string name="app_name">skattjakt</string>
     <string name="title_activity_maps">Skattjakt</string>
     <string name="surrender">ge upp</string>
-    <string name="info">ändringar</string>
+    <string name="info">inställningar</string>
     <string name="tillbaka">tillbaka</string>
     <string name="title_activity_infopage">infopage</string>
 </resources>
