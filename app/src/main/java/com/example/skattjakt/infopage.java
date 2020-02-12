@@ -87,6 +87,10 @@ public class infopage extends AppCompatActivity {
         MapsActivity.icons = icons;
         this.finish();
     }
+    public void stats(View view){
+        Intent intent = new Intent ( this,Stats.class);
+        startActivity(intent);
+    }
     public void onRadioButtonClicked(View view) {
 
         boolean checked = ((RadioButton) view).isChecked();

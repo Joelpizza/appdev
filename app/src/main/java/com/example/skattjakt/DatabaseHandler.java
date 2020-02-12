@@ -5,15 +5,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "ScoresManager";
     private static final String TABLE_CONTACTS = "Scores";
     private static final String KEY_ID = "id";
     private static final String KEY_SCORE = "score";
+    private static final String KEY_DATE = "date";
 
 
     public DatabaseHandler(Context context) {
@@ -24,7 +27,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SCORE + " TEXT" + ")";
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SCORE + " TEXT," + KEY_DATE + " TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -44,6 +47,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_SCORE, Score.getScore()); // score Name
+        values.put(KEY_DATE, Score.getDate());
 
 
         // Inserting Row
@@ -58,7 +62,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public List<score> getAllscores() {
         List<score> ScoreList = new ArrayList<score>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+        String selectQuery = "SELECT * FROM " + TABLE_CONTACTS;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -77,7 +81,47 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // return Score list
         return ScoreList;
     }
+    public List<score> getAllDatescores() {
+        List<score> ScoreList = new ArrayList<score>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_CONTACTS;
 
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                score Score = new score();
+                Score.setID(Integer.parseInt(cursor.getString(0)));
+                Score.setScore(Integer.parseInt(cursor.getString(1)));
+                Score.setDate(cursor.getString(2));
+
+                ScoreList.add(Score);
+            } while (cursor.moveToNext());
+        }
+
+        // return Score list
+        return ScoreList;
+    }
+public List<score> getDatescore(String dated){
+    List<score> DateList = new ArrayList<score>();
+    String selectQuery = "SELECT SUM(score) FROM "+TABLE_CONTACTS+" WHERE "+KEY_DATE+" = '"+dated+"'";
+    //Log.i("score",selectQuery);
+    SQLiteDatabase db = this.getWritableDatabase();
+    Cursor cursor = db.rawQuery(selectQuery, null);
+
+    // looping through all rows and adding to list
+    if (cursor.moveToFirst()) {
+        do {
+            score Score = new score();
+            Score.setScore(Integer.parseInt(cursor.getString(0)));
+            DateList.add(Score);
+
+        } while (cursor.moveToNext());
+    }
+    return DateList;
+}
     // code to update the single Score
     public int updatescore(score Score) {
         SQLiteDatabase db = this.getWritableDatabase();

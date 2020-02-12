@@ -33,6 +33,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -200,9 +203,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             });
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
-                    db.addscore(new score(score));
-
-
+                    SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date = new Date();
+                    String data = "2020-02-12";
+                    String dat = dt.format(date)+"";
+                    db.addscore(new score(score,data));
                 }
 
 
