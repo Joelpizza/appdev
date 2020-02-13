@@ -185,7 +185,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     newPin=false;
                 }
                 if(location.getLatitude()>randomLat-0.0001&&location.getLatitude()<randomLat+0.0001&&location.getLongitude()>randomLong-0.0001&&location.getLongitude()<randomLong+0.0001){
-                    Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                     mMap.clear();
                     newPin=true;
                     int score;
@@ -202,10 +201,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             });
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
-                    SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
-                    Date date = new Date();
-                    String dat = dt.format(date)+"";
-                    db.addscore(new score(score,dat));
+                    //Date date = new Date();
+                    db.addscore(new score(score));
                 }
 
 

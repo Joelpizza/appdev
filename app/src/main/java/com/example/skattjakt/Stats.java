@@ -3,9 +3,12 @@ package com.example.skattjakt;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +17,7 @@ public class Stats extends AppCompatActivity {
     public DatabaseHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SimpleDateFormat dformat = new SimpleDateFormat("yyyy-MM-dd");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
         db = new DatabaseHandler(this);
@@ -22,13 +26,13 @@ public class Stats extends AppCompatActivity {
         int forloop = 0;
         String[] date = new String[scores.size()];
         for(score sc : scores) {
-            List<score> dates = db.getDatescore(sc.getDate());
+            List<score> dates = db.getDatescore(new Date(sc.getDate()));
             for (score dt : dates){
                 if(!Arrays.asList(date).contains(sc.getDate())){
                     totalscoredate[forloop] += dt.getScore();
                 }
             }
-            date[forloop] = sc.getDate();
+            date[forloop] =dformat.format(new Date(sc.getDate()));
             forloop++;
         }
         TextView[] textView = new TextView[10];

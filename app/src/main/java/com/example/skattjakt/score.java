@@ -1,12 +1,14 @@
 package com.example.skattjakt;
 
+import java.util.Date;
+
 public class score {
     int _id;
     int _score;
-    String _date;
+    Long _date;
 
     public score(){   }
-    public score(int id, int score, String date){
+    public score(int id, int score, Long date){
         this._id = id;
         this._score = score;
         this._date = date;
@@ -15,7 +17,7 @@ public class score {
     public score(int score){
         this._score = score;
     }
-    public score(int score, String date){
+    public score(int score, Long date){
         this._score = score;
         this._date = date;
     }
@@ -31,10 +33,10 @@ public class score {
     public int getScore(){
         return this._score;
     }
-    public String getDate(){
+    public Long getDate(){
         return this._date;
     }
-    public void setDate(String date){
+    public void setDate(Long date){
         this._date = date;
     }
 
