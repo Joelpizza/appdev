@@ -33,7 +33,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -205,7 +204,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     alertDialog.show();
                     SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
                     Date date = new Date();
-                    String data = "2020-02-12";
+                    String data = "2020-02-15";
                     String dat = dt.format(date)+"";
                     db.addscore(new score(score,data));
                 }

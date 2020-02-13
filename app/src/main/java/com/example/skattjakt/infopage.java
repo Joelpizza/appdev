@@ -20,9 +20,11 @@ public class infopage extends AppCompatActivity {
     boolean icons = true;
     boolean nightmode = false;
     float zoom;
+    public static boolean clickedstats;
     SeekBar seekBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        clickedstats = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_infopage);
         Intent intent = getIntent();
@@ -88,8 +90,11 @@ public class infopage extends AppCompatActivity {
         this.finish();
     }
     public void stats(View view){
-        Intent intent = new Intent ( this,Stats.class);
-        startActivity(intent);
+        if(clickedstats==false) {
+            clickedstats=true;
+            Intent intent = new Intent(this, Stats.class);
+            startActivity(intent);
+        }
     }
     public void onRadioButtonClicked(View view) {
 

@@ -3,9 +3,11 @@ package com.example.skattjakt;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Stats extends AppCompatActivity {
@@ -41,10 +43,35 @@ public class Stats extends AppCompatActivity {
         textView[8] = findViewById(R.id.statist9);
         textView[9] = findViewById(R.id.statist10);
 
+        List<String> list = Arrays.asList(date);
+        Collections.reverse(list);
+        date = (String[]) list.toArray();
+
+        totalscoredate = reverseArray(totalscoredate);
+        int j=0;
         for(int i=0;i<totalscoredate.length&&i<10;i++){
             if(totalscoredate[i]!=0){
-                textView[i].setText(date[i]+" poäng: "+totalscoredate[i]);
+                textView[j].setText(date[i]+" poäng: "+totalscoredate[i]);
+                j++;
             }
         }
+    }
+    public void openOldIntent(View view){
+        infopage.clickedstats = false;
+        this.finish();
+    }
+    @Override
+    public void onBackPressed(){
+        infopage.clickedstats = false;
+        this.finish();
+    }
+    public int[] reverseArray(int[] inputArray) {
+        for (int left = 0, right = inputArray.length - 1; left < right; left++, right--) {
+            int temp = inputArray[left];
+            inputArray[left]  = inputArray[right];
+            inputArray[right] = temp;
+        }
+
+        return inputArray;
     }
 }
