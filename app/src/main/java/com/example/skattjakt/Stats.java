@@ -49,7 +49,7 @@ public class Stats extends AppCompatActivity {
 
         totalscoredate = reverseArray(totalscoredate);
         int j=0;
-        for(int i=0;i<totalscoredate.length&&i<10;i++){
+        for(int i=0;i<totalscoredate.length&&j<10;i++){
             if(totalscoredate[i]!=0){
                 textView[j].setText(date[i]+" poäng: "+totalscoredate[i]);
                 j++;

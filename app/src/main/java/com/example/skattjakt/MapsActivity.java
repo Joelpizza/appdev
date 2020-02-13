@@ -204,9 +204,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     alertDialog.show();
                     SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
                     Date date = new Date();
-                    String data = "2020-02-15";
                     String dat = dt.format(date)+"";
-                    db.addscore(new score(score,data));
+                    db.addscore(new score(score,dat));
                 }
 
 
