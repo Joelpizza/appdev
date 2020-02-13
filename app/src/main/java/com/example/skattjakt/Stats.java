@@ -17,7 +17,7 @@ public class Stats extends AppCompatActivity {
     public DatabaseHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SimpleDateFormat dformat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dformat = new SimpleDateFormat("dd/MM E");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
         db = new DatabaseHandler(this);
