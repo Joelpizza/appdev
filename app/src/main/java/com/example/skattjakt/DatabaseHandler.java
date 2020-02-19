@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -104,19 +105,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 public List<score> getDatescore(Date dated){
     List<score> DateList = new ArrayList<score>();
-    String selectQuery = "SELECT SUM(score) FROM "+TABLE_CONTACTS+" WHERE "+KEY_DATE+" = '"+dated.getTime()+"'";
-    //Log.i("score",selectQuery);
+    String selectQuery1 = "SELECT date FROM "+TABLE_CONTACTS;
     SQLiteDatabase db = this.getWritableDatabase();
-    Cursor cursor = db.rawQuery(selectQuery, null);
-
-    // looping through all rows and adding to list
-    if (cursor.moveToFirst()) {
+    Cursor cursor1 = db.rawQuery(selectQuery1, null);
+    if (cursor1.moveToFirst()) {
         do {
-            score Score = new score();
-            Score.setScore(Integer.parseInt(cursor.getString(0)));
-            DateList.add(Score);
+            SimpleDateFormat dformat = new SimpleDateFormat("yyyy-MM-dd");
+            if(dformat.format(cursor1.getLong(0)).equals(dformat.format(dated))){
 
-        } while (cursor.moveToNext());
+                String selectQuery = "SELECT SUM(score) FROM "+TABLE_CONTACTS +" WHERE "+KEY_DATE+" = '"+cursor1.getLong(0)+"'";
+                //Log.i("score",selectQuery);
+
+                Cursor cursor = db.rawQuery(selectQuery, null);
+
+                // looping through all rows and adding to list
+                if (cursor.moveToFirst()) {
+                    do {
+                        score Score = new score();
+                        Score.setScore(Integer.parseInt(cursor.getString(0)));
+                        DateList.add(Score);
+
+                    } while (cursor.moveToNext());
+                }
+            }
+        } while (cursor1.moveToNext());
     }
     return DateList;
 }

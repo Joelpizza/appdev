@@ -28,7 +28,7 @@ public class Stats extends AppCompatActivity {
         for(score sc : scores) {
             List<score> dates = db.getDatescore(new Date(sc.getDate()));
             for (score dt : dates){
-                if(!Arrays.asList(date).contains(sc.getDate())){
+                if(!Arrays.asList(date).contains(dformat.format(sc.getDate()))){
                     totalscoredate[forloop] += dt.getScore();
                 }
             }
